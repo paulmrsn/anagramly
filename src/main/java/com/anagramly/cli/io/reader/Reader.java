@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 public class Reader {
-    public static Stream<String> read(String filePath) throws IOException {
-        return Files.lines(Paths.get(filePath));
-    }
+  public static Stream<String> read(String filePath) throws IOException {
+    return Files.lines(Paths.get(filePath));
+  }
 }
