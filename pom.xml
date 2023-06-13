@@ -60,6 +60,11 @@
       <artifactId>picocli</artifactId>
       <version>4.7.3</version>
     </dependency>
+    <dependency>
+      <groupId>com.github.lalyos</groupId>
+      <artifactId>jfiglet</artifactId>
+      <version>0.0.9</version>
+    </dependency>
   </dependencies>
 
 </project>
