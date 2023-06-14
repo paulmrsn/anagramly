@@ -12,6 +12,8 @@
 
 # Package Files #
 *.jar
+# Except for anagramly.jar
+!anagramly.jar
 *.war
 *.nar
 *.ear
