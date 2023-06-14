@@ -1,5 +1,7 @@
 package com.anagramly.cli.io.writer;
 
+import org.tinylog.Logger;
+
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -11,8 +13,10 @@ public class FileWriter implements Writer {
     try {
       Files.createFile(path); // Create the file if it doesn't exist.
     } catch (FileAlreadyExistsException e) {
-      // file already exists, do nothing
+      Logger.error(e, "File already exists: {}", path);
+      throw new RuntimeException("File already exists: " + path);
     } catch (IOException e) {
+      Logger.error(e, "Unable to create file: {}", filename);
       throw new RuntimeException("Unable to create file", e);
     }
   }
