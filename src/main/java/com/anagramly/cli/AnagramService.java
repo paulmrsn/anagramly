@@ -25,18 +25,18 @@ public class AnagramService {
     return output.toString();
   }
 
-  private static String charFrequencyKey(final String str) {
-    int[] count = new int[26];
+  private String charFrequencyKey(final String str) {
+    Map<Character, Integer> count = new HashMap<>();
     for (char c : str.toCharArray()) {
-      count[c - 'a']++;
+      count.put(c, count.getOrDefault(c, 0) + 1);
     }
 
     StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < 26; i++) {
-      if (count[i] != 0) {
-        sb.append((char) (i + 'a'));
-        sb.append(count[i]);
-      }
+    for (Map.Entry<Character, Integer> entry : count.entrySet()) {
+      sb.append(entry.getKey());
+      sb.append('#');
+      sb.append(entry.getValue());
+      sb.append('#');
     }
 
     return sb.toString();
