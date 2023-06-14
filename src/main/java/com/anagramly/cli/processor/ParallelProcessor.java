@@ -24,8 +24,10 @@ public class ParallelProcessor extends AbstractProcessor {
 
   @Override
   protected void consume(List<String> input) {
-    executorService.execute(
-        () -> writer.write(anagramService.formatGroup(anagramService.checkAnagrams(input))));
+    if(isValid(input)) {
+      executorService.execute(
+              () -> writer.write(anagramService.formatGroup(anagramService.checkAnagrams(input))));
+    }
   }
 
   public void shutDown() throws InterruptedException {

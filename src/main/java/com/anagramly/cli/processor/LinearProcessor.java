@@ -18,6 +18,8 @@ public class LinearProcessor extends AbstractProcessor {
 
   @Override
   protected void consume(List<String> input) {
-    writer.write(anagramService.formatGroup(anagramService.checkAnagrams(input)));
+    if(isValid(input)) {
+      writer.write(anagramService.formatGroup(anagramService.checkAnagrams(input)));
+    }
   }
 }

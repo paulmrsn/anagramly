@@ -1,6 +1,7 @@
 package com.anagramly.cli.processor;
 
 import com.anagramly.cli.io.reader.Reader;
+import org.tinylog.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public abstract class AbstractProcessor {
     try (Stream<String> lines = reader.read(filePath)) {
       lines.forEach(
           word -> {
+            // Consume the batch and clear memory when the words change length
             if (currentWordLength.get() != word.length()) {
               if (!wordsToProcess.isEmpty()) {
                 consume(new ArrayList<>(wordsToProcess));
@@ -32,6 +34,14 @@ public abstract class AbstractProcessor {
           });
       consume(new ArrayList<>(wordsToProcess));
     }
+  }
+
+  protected boolean isValid(List<String> input) {
+    if (input == null || input.isEmpty()) {
+      Logger.warn("Input is empty");
+      return false;
+    }
+    return true;
   }
 
   abstract void consume(List<String> input);

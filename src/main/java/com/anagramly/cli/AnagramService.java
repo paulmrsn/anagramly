@@ -6,6 +6,10 @@ import java.util.*;
 
 public class AnagramService {
   public Collection<List<String>> checkAnagrams(final List<String> words) {
+    if (words == null || words.isEmpty()) {
+      Logger.warn("formatGroup: Empty of null list passed!");
+      return Collections.emptyList();
+    }
     Map<String, List<String>> groups = new HashMap<>();
     for (String word : words) {
       String key = charFrequencyKey(word);

@@ -78,6 +78,12 @@ public class AnagramServiceTest {
   }
 
   @Test
+  public void testCheckAnagramsNull() {
+    Collection<List<String>> anagramGroups = anagramService.checkAnagrams(null);
+    assertTrue(anagramGroups.isEmpty());
+  }
+
+  @Test
   public void testFormatGroup() {
     Collection<List<String>> groups = new ArrayList<>();
     groups.add(Arrays.asList("art", "rat", "tar"));
@@ -105,6 +111,13 @@ public class AnagramServiceTest {
   public void testFormatGroupNoElement() {
     Collection<List<String>> groups = new ArrayList<>();
     String output = anagramService.formatGroup(groups);
+
+    assertEquals("", output);
+  }
+
+  @Test
+  public void testFormatGroupNull() {
+    String output = anagramService.formatGroup(null);
 
     assertEquals("", output);
   }
