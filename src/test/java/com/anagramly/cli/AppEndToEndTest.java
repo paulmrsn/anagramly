@@ -71,6 +71,29 @@ public class AppEndToEndTest {
     outputFile.delete();
   }
 
+  @Test
+  public void testEndToEndFileDoesNotExist() {
+    int exitCode = new CommandLine(new App()).execute("-f", "idontexist.txt");
+    assertEquals(1, exitCode);
+  }
+
+  @Test
+  public void testEndToEndNoFilePassed() {
+    int exitCode = new CommandLine(new App()).execute();
+    assertEquals(2, exitCode);
+  }
+
+  @Test
+  public void testEndToEndOutputFileAlreadyExists() throws IOException {
+    File outputFile = File.createTempFile("output", ".txt");
+    int exitCode =
+        new CommandLine(new App())
+            .execute("-f", tempFile.getAbsolutePath(), "-o", outputFile.getAbsolutePath());
+    assertEquals(1, exitCode);
+
+    outputFile.delete();
+  }
+
   private File createTempFileWithContent(List<String> lines) throws IOException {
     Path tempFilePath = Files.createTempFile("anagram", "txt");
     Files.write(tempFilePath, lines);

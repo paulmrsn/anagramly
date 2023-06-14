@@ -12,12 +12,13 @@ import org.tinylog.Logger;
 import picocli.CommandLine;
 
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
 import static picocli.CommandLine.Command;
 import static picocli.CommandLine.Option;
 
 @Command(name = "anagramly")
-public class App implements Runnable {
+public class App implements Callable<Integer> {
 
   @Option(
       names = {"-f", "--file"},
@@ -44,7 +45,7 @@ public class App implements Runnable {
   }
 
   @Override
-  public void run() {
+  public Integer call() {
     System.out.println("⏰ Processing file -> " + filePath);
     try {
       AnagramService anagramService = new AnagramService();
@@ -61,9 +62,11 @@ public class App implements Runnable {
         processor.process(filePath);
       }
       System.out.println("✅ Success -> " + filePath);
+      return 0;
     } catch (Exception e) {
       Logger.error(e);
       System.out.println("❌ Something went wrong for: " + filePath + ", err: " + e);
+      return 1;
     }
   }
 }
