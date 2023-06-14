@@ -20,7 +20,7 @@ public class FileWriter implements Writer {
   @Override
   public synchronized void write(String value) {
     try {
-      Files.write(path, value.getBytes(), StandardOpenOption.APPEND);
+      Files.write(path, (value + System.lineSeparator()).getBytes(), StandardOpenOption.APPEND);
     } catch (IOException e) {
       throw new RuntimeException("Unable to write to file", e);
     }

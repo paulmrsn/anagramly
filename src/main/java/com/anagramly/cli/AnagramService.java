@@ -2,8 +2,8 @@ package com.anagramly.cli;
 
 import java.util.*;
 
-public class Anagram {
-  public static Collection<List<String>> checkAnagrams(final List<String> words) {
+public class AnagramService {
+  public Collection<List<String>> checkAnagrams(final List<String> words) {
     Map<String, List<String>> groups = new HashMap<>();
     for (String word : words) {
       String key = charFrequencyKey(word);

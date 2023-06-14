@@ -1,19 +1,23 @@
 package com.anagramly.cli.processor;
 
-import com.anagramly.cli.Anagram;
+import com.anagramly.cli.AnagramService;
+import com.anagramly.cli.io.reader.Reader;
 import com.anagramly.cli.io.writer.Writer;
 
 import java.util.List;
 
 public class LinearProcessor extends AbstractProcessor {
   private final Writer writer;
+  private final AnagramService anagramService;
 
-  public LinearProcessor(Writer writer) {
+  public LinearProcessor(AnagramService anagramService, Reader reader, Writer writer) {
+    super(reader);
     this.writer = writer;
+    this.anagramService = anagramService;
   }
 
   @Override
   protected void consume(List<String> input) {
-    writer.write(Anagram.formatGroup(Anagram.checkAnagrams(input)));
+    writer.write(anagramService.formatGroup(anagramService.checkAnagrams(input)));
   }
 }
