@@ -1,5 +1,7 @@
 package com.anagramly.cli;
 
+import org.tinylog.Logger;
+
 import java.util.*;
 
 public class AnagramService {
@@ -12,17 +14,20 @@ public class AnagramService {
     return groups.values();
   }
 
-  public static String formatGroup(final Collection<List<String>> groups) {
-    StringBuilder output = new StringBuilder();
-    int i = 0;
-    for (List<String> entry : groups) {
-      output.append(String.join(",", entry));
-      if (i != groups.size() - 1) {
-        output.append("\n");
-      }
-      i++;
+  public String formatGroup(final Collection<List<String>> groups) {
+    if (groups == null || groups.isEmpty()) {
+      Logger.warn("formatGroup: Empty of null group passed!");
+      return "";
     }
-    return output.toString();
+    StringJoiner groupJoiner = new StringJoiner("\n");
+    for (List<String> group : groups) {
+      StringJoiner wordJoiner = new StringJoiner(",");
+      for (String word : group) {
+        wordJoiner.add(word);
+      }
+      groupJoiner.add(wordJoiner.toString());
+    }
+    return groupJoiner.toString();
   }
 
   private String charFrequencyKey(final String str) {
