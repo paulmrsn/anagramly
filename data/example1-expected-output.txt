@@ -1,3 +1,0 @@
-abc, bac, cba
-fun, fun, unf
-hello
