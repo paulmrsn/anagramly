@@ -13,8 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class WriterTest {
   private static final String TEST_FILE = "test.txt";
@@ -76,13 +75,29 @@ public class WriterTest {
     Files.write(path, existingContent.getBytes());
 
     // Write to the existing file
-    Writer fileWriter = new FileWriter(TEST_FILE);
+    Writer fileWriter = new FileWriter(TEST_FILE, true);
     fileWriter.write(TEST_VALUE);
 
     // Assert that the file contains both the existing content and the new content
     String content = Files.readString(path);
     assertTrue(content.contains(existingContent));
     assertTrue(content.contains(TEST_VALUE));
+  }
+
+  @Test
+  public void testFileWriterWithExistingFileNoOverwrite() throws IOException {
+    // Create a file with some content
+    String existingContent = "Existing content";
+    Path path = Paths.get(TEST_FILE);
+    Files.write(path, existingContent.getBytes());
+
+    // Attempt to initialize a writer with writeExistingFile set to false
+    assertThrows(Exception.class, () -> new FileWriter(TEST_FILE, false));
+
+    // Assert that the file contains only the existing content and no new content
+    String content = Files.readString(path);
+    assertTrue(content.contains(existingContent));
+    assertFalse(content.contains(TEST_VALUE));
   }
 
   @Test

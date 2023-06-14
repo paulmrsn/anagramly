@@ -9,6 +9,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -57,11 +58,12 @@ public class AppEndToEndTest {
 
   @Test
   public void testEndToEndOutputToFile() throws IOException {
-    File outputFile = File.createTempFile("output", ".txt");
+    String filePath = "output " + UUID.randomUUID() + ".txt";
     int exitCode =
         new CommandLine(new App())
-            .execute("-f", tempFile.getAbsolutePath(), "-o", outputFile.getAbsolutePath());
+            .execute("-f", tempFile.getAbsolutePath(), "-o", filePath);
     assertEquals(0, exitCode);
+    File outputFile = new File(filePath);
 
     List<String> lines = Files.readAllLines(outputFile.toPath());
     assertEquals(4, lines.size());
