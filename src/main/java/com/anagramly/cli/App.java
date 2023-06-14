@@ -1,5 +1,6 @@
 package com.anagramly.cli;
 
+import com.anagramly.cli.io.reader.Reader;
 import com.anagramly.cli.processor.AbstractProcessor;
 import com.anagramly.cli.processor.LinearProcessor;
 import com.anagramly.cli.processor.ParallelProcessor;
@@ -46,19 +47,17 @@ public class App implements Runnable {
   public void run() {
     System.out.println("⏰ Processing file -> " + filePath);
     try {
-      Writer writer;
-      if (outputPath != null) {
-        writer = new FileWriter(outputPath);
-      } else {
-        writer = new ConsoleWriter();
-      }
+      AnagramService anagramService = new AnagramService();
+      Writer writer = outputPath != null ? new FileWriter(outputPath) : new ConsoleWriter();
+      Reader reader = new Reader();
       AbstractProcessor processor;
+
       if (runInParallel) {
-        processor = new ParallelProcessor(writer);
+        processor = new ParallelProcessor(anagramService, reader, writer);
         processor.process(filePath);
         ((ParallelProcessor) processor).shutDown();
       } else {
-        processor = new LinearProcessor(writer);
+        processor = new LinearProcessor(anagramService, reader, writer);
         processor.process(filePath);
       }
       System.out.println("✅ Success -> " + filePath);
